@@ -485,29 +485,8 @@ bool CIRCNetwork::ParseConfig(CConfig* pConfig, CString& sError,
                     return false;
                 }
 
-                // XXX The awaynick module was retired in 1.6 (still available
-                // as external module)
-                if (sModName == "awaynick") {
-                    // load simple_away instead, unless it's already on the list
-                    bool bFound = false;
-                    for (const CString& sLoadMod : vsList) {
-                        if (sLoadMod.Token(0).Equals("simple_away")) {
-                            bFound = true;
-                        }
-                    }
-                    if (!bFound) {
-                        sNotice =
-                            "NOTICE: awaynick was retired, loading network "
-                            "module [simple_away] instead; if you still need "
-                            "awaynick, install it as an external module";
-                        sModName = "simple_away";
-                        // not a fatal error if simple_away is not available
-                        LoadModule(sModName, sArgs, sNotice, sModRet);
-                    }
-                } else {
-                    sError = sModRet;
-                    return false;
-                }
+                sError = sModRet;
+                return false;
             }
         }
     }
