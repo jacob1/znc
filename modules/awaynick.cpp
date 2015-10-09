@@ -24,10 +24,10 @@ class CAwayNickTimer : public CTimer {
 public:
 	CAwayNickTimer(CAwayNickMod& Module);
 
-private:
-	virtual void RunJob();
+protected:
+	void RunJob() override;
 
-private:
+protected:
 	CAwayNickMod& m_Module;
 };
 
@@ -37,8 +37,8 @@ public:
 		: CTimer(&Module, 3, 1, "BackNickTimer", "Set your nick back when you reattach"),
 		  m_Module(Module) {}
 
-private:
-	virtual void RunJob() {
+protected:
+	void RunJob() override {
 		CIRCNetwork* pNetwork = m_Module.GetNetwork();
 
 		if (pNetwork->IsUserAttached() && pNetwork->IsIRCConnected()) {
@@ -47,7 +47,7 @@ private:
 		}
 	}
 
-private:
+protected:
 	CModule& m_Module;
 };
 
@@ -55,7 +55,7 @@ class CAwayNickMod : public CModule {
   public:
     MODCONSTRUCTOR(CAwayNickMod) {}
 
-	virtual bool OnLoad(const CString& sArgs, CString& sMessage) {
+	bool OnLoad(const CString& sArgs, CString& sMessage) override {
 		if (!sArgs.empty())
 			m_sFormat = sArgs;
 		else
@@ -96,8 +96,8 @@ class CAwayNickMod : public CModule {
 		}
 	}
 
-	virtual EModRet OnIRCRegistration(CString& sPass, CString& sNick,
-			CString& sIdent, CString& sRealName) {
+	EModRet OnIRCRegistration(CString& sPass, CString& sNick,
+			CString& sIdent, CString& sRealName) override {
 		CIRCNetwork* pNetwork = GetNetwork();
 		if (pNetwork && !pNetwork->IsUserAttached()) {
 			m_sAwayNick = m_sFormat;
@@ -112,22 +112,22 @@ class CAwayNickMod : public CModule {
 		return CONTINUE;
 	}
 
-	virtual void OnIRCDisconnected() {
+	void OnIRCDisconnected() override {
 		RemTimer("AwayNickTimer");
 		RemTimer("BackNickTimer");
 	}
 
-	virtual void OnClientLogin() {
+	void OnClientLogin() override {
 		StartBackNickTimer();
 	}
 
-	virtual void OnClientDisconnect() {
+	void OnClientDisconnect() override {
 		if (!GetNetwork()->IsUserAttached()) {
 			StartAwayNickTimer();
 		}
 	}
 
-	virtual void OnModCommand(const CString& sLine) {
+	void OnModCommand(const CString& sLine) override {
 		CString sCommand = sLine.Token(0);
 		if (sCommand.Equals("TIMERS")) {
 			ListTimers();
@@ -178,7 +178,7 @@ class CAwayNickMod : public CModule {
 		return m_sAwayNick;
 	}
 
-private:
+protected:
 	CString m_sFormat;
 	CString m_sAwayNick;
 };
