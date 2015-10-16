@@ -21,6 +21,12 @@
 				<? ENDIF ?>
 
 				<div class="subsection">
+					<div class="inputlabel"><label for="sortorder"><? FORMAT "Sort Order:" ?></label></div>
+					<input type="number" name="sortorder" value="<? VAR SortOrder ?>" size="10" min="0"
+						   title="<? FORMAT Order in which to sort channels. ?>" />
+				</div>
+
+				<div class="subsection">
 					<div class="inputlabel"><label for="key"><? FORMAT "Key:" ?></label></div>
 					<input id="key" type="text" name="key" value="<? VAR Key ?>" size="10"
 						   title="<? FORMAT "The password of the channel, if there is one." ?>"/>

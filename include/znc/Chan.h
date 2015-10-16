@@ -57,7 +57,7 @@ class CChan : private CCoreTranslationMixin {
         M_Except = 'e'
     } EModes;
 
-    static const unsigned int    m_uDefaultSortOrder = 9999;
+    static const unsigned int    m_uDefaultSortOrder = 1;
 
     CChan(const CString& sName, CIRCNetwork* pNetwork, bool bInConfig,
           CConfig* pConfig = nullptr);
@@ -166,7 +166,7 @@ class CChan : private CCoreTranslationMixin {
     void InheritAutoClearChanBuffer(bool b);
     void ResetAutoClearChanBuffer();
     void SetDetached(bool b = true) { m_bDetached = b; }
-    void SetSortOrder(unsigned int s) { m_uSortOrder = s; }
+    void SetSortOrder(unsigned int s, bool bAutoReSort = true);
     void SetInConfig(bool b);
     void SetCreationDate(unsigned long u) { m_ulCreationDate = u; }
     void Disable() { m_bDisabled = true; }

@@ -730,6 +730,7 @@ class CWebAdminMod : public CModule {
                         pChan->GetName(), pNetwork->GetName(),
                         pUser->GetUsername());
                 Tmpl["ChanName"] = pChan->GetName();
+                Tmpl["SortOrder"] = CString(pChan->GetSortOrder());
                 Tmpl["BufferSize"] = CString(pChan->GetBufferCount());
                 Tmpl["DefModes"] = pChan->GetDefaultModes();
                 Tmpl["Key"] = pChan->GetKey();
@@ -743,6 +744,7 @@ class CWebAdminMod : public CModule {
                 Tmpl["Title"] =
                     t_f("Add Channel to Network [{1}] of User [{2}]")(
                         pNetwork->GetName(), pUser->GetUsername());
+                Tmpl["SortOrder"] = CString(CChan::m_uDefaultSortOrder);
                 Tmpl["BufferSize"] = CString(pUser->GetBufferCount());
                 Tmpl["DefModes"] = CString(pUser->GetDefaultChanModes());
                 Tmpl["InConfig"] = "true";
@@ -822,6 +824,12 @@ class CWebAdminMod : public CModule {
             if (pChan->GetBufferCount() != uBufferSize) {
                 pChan->SetBufferCount(uBufferSize, spSession->IsAdmin());
             }
+        }
+        if (WebSock.GetParam("sortorder").empty()) {
+            pChan->SetSortOrder(0);
+        } else {
+            unsigned int uSortOrder = WebSock.GetParam("sortorder").ToUInt();
+            pChan->SetSortOrder(uSortOrder);
         }
         pChan->SetDefaultModes(WebSock.GetParam("defmodes"));
         pChan->SetInConfig(WebSock.GetParam("save").ToBool());
@@ -1007,6 +1015,7 @@ class CWebAdminMod : public CModule {
                 l["Network"] = pNetwork->GetName();
                 l["Username"] = pUser->GetUsername();
                 l["Name"] = pChan->GetName();
+                l["SortOrder"] = CString(pChan->GetSortOrder());
                 l["Perms"] = pChan->GetPermStr();
                 l["CurModes"] = pChan->GetModeString();
                 l["DefModes"] = pChan->GetDefaultModes();

@@ -752,6 +752,18 @@ void CChan::SetKey(const CString& s) {
     }
 }
 
+
+void CChan::SetSortOrder(unsigned int s, bool bAutoReSort) {
+    if (s == 0) {
+        s = CChan::m_uDefaultSortOrder;
+    }
+    bool bChanged = (s!=m_uSortOrder);
+    m_uSortOrder = s;
+    if (bChanged && bAutoReSort && GetNetwork()!=nullptr) {
+        GetNetwork()->SortChans();
+    }
+}
+
 void CChan::SetInConfig(bool b) {
     if (m_bInConfig != b) {
         m_bInConfig = b;
@@ -763,3 +775,4 @@ void CChan::ResetBufferCount() {
     SetBufferCount(m_pNetwork->GetUser()->GetBufferCount());
     m_bHasBufferCountSet = false;
 }
+

@@ -1495,8 +1495,6 @@ void CClient::UserCommand(CString& sLine) {
         }
 
         unsigned int uSortOrder = sLine.Token(2).ToUInt();
-        if (uSortOrder == 0)
-            uSortOrder = CChan::m_uDefaultSortOrder;
 
         const vector<CChan*>& vChans = m_pNetwork->GetChans();
         vector<CChan*>::const_iterator it;
@@ -1504,7 +1502,7 @@ void CClient::UserCommand(CString& sLine) {
         for (it = vChans.begin(); it != vChans.end(); ++it) {
             if ((*it)->GetName().WildCmp(sChan)) {
                 uMatches++;
-                (*it)->SetSortOrder(uSortOrder);
+                (*it)->SetSortOrder(uSortOrder, false);
             }
         }
         m_pNetwork->SortChans();
