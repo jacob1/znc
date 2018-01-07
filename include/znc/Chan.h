@@ -57,9 +57,13 @@ class CChan : private CCoreTranslationMixin {
         M_Except = 'e'
     } EModes;
 
+    static const unsigned int    m_uDefaultSortOrder = 9999;
+
     CChan(const CString& sName, CIRCNetwork* pNetwork, bool bInConfig,
           CConfig* pConfig = nullptr);
     ~CChan();
+
+    bool operator<(const CChan& other) const;
 
     CChan(const CChan&) = delete;
     CChan& operator=(const CChan&) = delete;
@@ -162,6 +166,7 @@ class CChan : private CCoreTranslationMixin {
     void InheritAutoClearChanBuffer(bool b);
     void ResetAutoClearChanBuffer();
     void SetDetached(bool b = true) { m_bDetached = b; }
+    void SetSortOrder(unsigned int s) { m_uSortOrder = s; }
     void SetInConfig(bool b);
     void SetCreationDate(unsigned long u) { m_ulCreationDate = u; }
     void Disable() { m_bDisabled = true; }
@@ -191,6 +196,7 @@ class CChan : private CCoreTranslationMixin {
     size_t GetNickCount() const { return m_msNicks.size(); }
     bool AutoClearChanBuffer() const { return m_bAutoClearChanBuffer; }
     bool IsDetached() const { return m_bDetached; }
+    unsigned int GetSortOrder() const { return m_uSortOrder; }
     bool InConfig() const { return m_bInConfig; }
     unsigned long GetCreationDate() const { return m_ulCreationDate; }
     bool IsDisabled() const { return m_bDisabled; }
@@ -220,6 +226,7 @@ class CChan : private CCoreTranslationMixin {
     unsigned int m_uJoinTries;
     CString m_sDefaultModes;
     std::map<CString, CNick> m_msNicks;  // Todo: make this caseless (irc style)
+    unsigned int m_uSortOrder;
     CBuffer m_Buffer;
 
     bool m_bModeKnown;
