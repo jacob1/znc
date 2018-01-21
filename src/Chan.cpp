@@ -46,9 +46,9 @@ CChan::CChan(const CString& sName, CIRCNetwork* pNetwork, bool bInConfig,
       m_uJoinTries(0),
       m_sDefaultModes(""),
       m_msNicks(),
+      m_uSortOrder(1),
       m_Buffer(),
       m_bModeKnown(false),
-      m_uSortOrder(9999),
       m_mcsModes() {
     if (!m_pNetwork->IsChan(m_sName)) {
         m_sName = "#" + m_sName;
