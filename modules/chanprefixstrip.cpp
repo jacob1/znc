@@ -23,7 +23,7 @@ public:
 	MODCONSTRUCTOR(CChanPrefixStrip) {}
 	virtual ~CChanPrefixStrip() {}
 
-	EModRet OnChanMessage(CTextMessage& Message) override {
+	EModRet OnChanTextMessage(CTextMessage& Message) override {
 		CString sChanName = Message.GetTarget();
 		CString sPrefixes = Message.GetNetwork()->GetIRCSock()->GetISupport("STATUSMSG", "");
 
