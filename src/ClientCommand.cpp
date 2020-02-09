@@ -1509,7 +1509,7 @@ void CClient::UserCommand(CString& sLine) {
 
         PutStatus(t_p("SortOrder for {1} channel was set to {2}",
                       "SortOrder for {1} channels was set to {2}",
-                      uMatches)(uMatches, uSortOrder);
+                      uMatches)(uMatches, uSortOrder));
     } else if (m_pUser->IsAdmin() && sCommand.Equals("TRAFFIC")) {
         CZNC::TrafficStatsPair Users, ZNC, Total;
         CZNC::TrafficStatsMap traffic =
